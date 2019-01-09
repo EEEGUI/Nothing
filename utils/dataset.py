@@ -18,12 +18,19 @@ class DataSet(object):
 
         self.df_all = pd.concat([df_train, df_test], ignore_index=True)
 
-    def merge_data(self, on_key, df_other, agg_config):
+    def merge_data(self, on_key, df_other):
         """
         apply agg_config on df_other and then merge df_other with self.df_all on key
         :param on_key: the key(id) in both df_all and df_other
         :param df_other:
-        :param agg_config: dict, eg: {"colname": ["mean", "std", ...]}
+        :return:
+        """
+        self.df_all = pd.merge(self.df_all, df_other, on=on_key, how='left')
+
+    def process(self):
+        """
+        pipline to process the data set
+        override this function
         :return:
         """
         pass
@@ -113,10 +120,4 @@ class DataSet(object):
         """
         return self.label
 
-    def process(self):
-        """
-        pipline to process the data set
-        override this function
-        :return:
-        """
-        pass
+
